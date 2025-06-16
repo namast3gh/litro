@@ -19,7 +19,7 @@ const UploadBook = () => {
   const allowedRoles = [4]
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/data/genres")
+    fetch(`${REACT_APP_API_BASE_URL}/data/genres`)
       .then((res) => res.json())
       .then((data) => setGenres(data))
       .catch(() => setMessage("Ошибка загрузки списка жанров"));
@@ -62,7 +62,7 @@ const UploadBook = () => {
     formData.append("content", content);
 
     try {
-      const res = await fetch("http://localhost:8000/api/data/upload-book", {
+      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/upload-book`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

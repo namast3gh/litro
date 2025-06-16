@@ -23,13 +23,13 @@ const UploadBookAdmin = () => {
 
   useEffect(() => {
     // Загрузка жанров
-    fetch("http://localhost:8000/api/data/genres")
+    fetch(`${REACT_APP_API_BASE_URL}/data/genres`)
       .then((res) => res.json())
       .then(setGenres)
       .catch(() => setMessage("Ошибка загрузки списка жанров"));
 
     // Загрузка классических авторов
-    fetch("http://localhost:8000/api/data/authors")
+    fetch(`${REACT_APP_API_BASE_URL}/data/authors`)
       .then((res) => res.json())
       .then(setAuthors)
       .catch(() => setMessage("Ошибка загрузки списка авторов"));
@@ -69,7 +69,7 @@ const UploadBookAdmin = () => {
     formData.append("content", content);
 
     try {
-      const res = await fetch("http://localhost:8000/api/data/upload-book-admin", {
+      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/upload-book-admin`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

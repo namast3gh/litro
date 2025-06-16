@@ -60,7 +60,7 @@ const Profile = () => {
 
     const fetchHistory = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/profile/purchase-history", {
+        const response = await fetch(`${REACT_APP_API_BASE_URL}/profile/purchase-history`, {
           headers: {
             Authorization: `Bearer ${user.access_token}`,
           },
@@ -97,8 +97,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("photo", file);
 
-      const response = await fetch(
-        "http://localhost:8000/api/users/upload-photo",
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/users/upload-photo`,
         {
           method: "POST",
           headers: {
@@ -133,8 +132,7 @@ const Profile = () => {
     setError(null);
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/users/delete-photo",
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/users/delete-photo`,
         {
           method: "DELETE",
           headers: {
@@ -165,7 +163,7 @@ const Profile = () => {
     user.photo && user.photo.length > 0
       ? user.photo.startsWith("http")
         ? user.photo
-        : `http://localhost:8000${user.photo}`
+        : `http://87.228.102.111:8000${user.photo}`
       : null;
 
   const handleEditOpen = () => {
@@ -216,7 +214,7 @@ const Profile = () => {
       }
 
       const response = await fetch(
-        "http://localhost:8000/api/users/update-profile",
+        `${REACT_APP_API_BASE_URL}/users/update-profile`,
         {
           method: "PUT",
           headers: {
@@ -495,7 +493,7 @@ const Profile = () => {
             <ul className="space-y-4">
               {purchaseHistory.map((item) => {
                 const downloadUrl = user
-                ? `http://localhost:8000/api/data/books/download/${item.book.id}`
+                ? `${REACT_APP_API_BASE_URL}/data/books/download/${item.book.id}`
                 : null;
 
                 return (
@@ -506,7 +504,7 @@ const Profile = () => {
                           item.book.photo
                             ? item.book.photo.startsWith("http")
                               ? item.book.photo
-                              : `http://localhost:8000${item.book.photo}`
+                              : `http://87.228.102.111:8000${item.book.photo}`
                             : "https://via.placeholder.com/80x120?text=Нет+изображения"
                         }
                         alt={item.book.title}

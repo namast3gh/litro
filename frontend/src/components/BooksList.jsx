@@ -32,11 +32,11 @@ const BooksList = () => {
 
   const fetchBooks = async () => {
     try {
-      let url = "http://87.228.102.111:8000/api/data/books/filter?";
+      let url = `${REACT_APP_API_BASE_URL}/data/books/filter?`;
       const urlParams = new URLSearchParams();
 
       if (searchQuery) {
-        url = `http://87.228.102.111:8000/api/data/books/search?q=${encodeURIComponent(searchQuery)}`;
+        url = `${REACT_APP_API_BASE_URL}/data/books/search?q=${encodeURIComponent(searchQuery)}`;
       } else {
         if (filters.genre_ids && filters.genre_ids.length > 0) {
           filters.genre_ids.forEach((id) => urlParams.append("genre_ids", id));
@@ -81,7 +81,7 @@ const BooksList = () => {
     if (!window.confirm("Вы точно хотите удалить эту книгу?")) return;
 
     try {
-      const res = await fetch(`http://87.228.102.111:8000/api/data/books/${bookId}`, {
+      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/books/${bookId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -128,7 +128,7 @@ const BooksList = () => {
               const photoUrl = book.photo
                 ? book.photo.startsWith("http")
                   ? book.photo
-                  : `http://localhost:8000${book.photo}`
+                  : `http://87.228.102.111:8000${book.photo}`
                 : null;
 
               const authorName = book.author_info

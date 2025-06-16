@@ -14,7 +14,7 @@ const TopBooks = () => {
   useEffect(() => {
     const fetchTopBooks = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/data/books/top");
+        const res = await fetch(`${REACT_APP_API_BASE_URL}/data/books/top`);
         if (!res.ok) throw new Error("Ошибка загрузки топ книг");
         const data = await res.json();
         setBooks(data);
@@ -34,7 +34,7 @@ const TopBooks = () => {
     if (!window.confirm("Вы точно хотите удалить эту книгу?")) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/data/books/${bookId}`, {
+      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/books/${bookId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -59,7 +59,7 @@ const TopBooks = () => {
         )}
         {books.map((book) => {
           const photoUrl =
-            book.photo && (book.photo.startsWith("http") ? book.photo : `http://localhost:8000${book.photo}`);
+            book.photo && (book.photo.startsWith("http") ? book.photo : `http://87.228.102.111:8000${book.photo}`);
 
           const authorName = book.author_info
             ? book.author_info.name || book.author_info.username

@@ -25,7 +25,7 @@ const AddGenreAdmin = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/api/data/genres", {
+      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/genres`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -13,7 +13,7 @@ const GroupList = () => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/data/groups");
+        const res = await fetch(`${REACT_APP_API_BASE_URL}/data/groups`);
         if (!res.ok) throw new Error("Ошибка загрузки групп");
         const data = await res.json();
         setGroups(data);
@@ -33,14 +33,14 @@ const GroupList = () => {
     if (!window.confirm("Вы точно хотите удалить эту книгу?")) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/data/books/${bookId}`, {
+      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/books/${bookId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Ошибка при удалении книги");
 
       // Обновляем список групп после удаления
-      const resGroups = await fetch("http://localhost:8000/api/data/groups");
+      const resGroups = await fetch(`${REACT_APP_API_BASE_URL}/data/groups`);
       if (!resGroups.ok) throw new Error("Ошибка загрузки групп");
       const dataGroups = await resGroups.json();
       setGroups(dataGroups);
@@ -80,7 +80,7 @@ const GroupList = () => {
                 )}
                 {book.photo ? (
                   <img
-                    src={book.photo.startsWith("http") ? book.photo : `http://localhost:8000${book.photo}`}
+                    src={book.photo.startsWith("http") ? book.photo : `http://87.228.102.111:8000${book.photo}`}
                     alt={book.title}
                     className="w-full h-48 object-cover"
                     onClick={() => navigate(`/books/${book.id}`)}

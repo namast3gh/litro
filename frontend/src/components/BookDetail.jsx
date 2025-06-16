@@ -18,7 +18,7 @@ const BookDetail = () => {
   const ratingLoaded = useRef(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/data/books/${id}`)
+    fetch(`${REACT_APP_API_BASE_URL}/data/books/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Ошибка загрузки книги");
         return res.json();
@@ -30,7 +30,7 @@ const BookDetail = () => {
   useEffect(() => {
     if (ratingLoaded.current) return;
     if (user && token) {
-      fetch(`http://localhost:8000/api/data/ratings/user/${user.id}/book/${id}`, {
+      fetch(`${REACT_APP_API_BASE_URL}/data/ratings/user/${user.id}/book/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => {
@@ -64,7 +64,7 @@ const BookDetail = () => {
       setInCart(false);
       return;
     }
-    fetch("http://localhost:8000/api/cart", {
+    fetch(`${REACT_APP_API_BASE_URL}/cart`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
@@ -79,7 +79,7 @@ const BookDetail = () => {
       setMessage("Пожалуйста, войдите, чтобы добавить в корзину");
       return;
     }
-    fetch(`http://localhost:8000/api/cart/add/${id}`, {
+    fetch(`${REACT_APP_API_BASE_URL}/cart/add/${id}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -97,7 +97,7 @@ const BookDetail = () => {
       return;
     }
 
-    fetch("http://localhost:8000/api/data/books/rate", {
+    fetch(`${REACT_APP_API_BASE_URL}/data/books/rate`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -110,7 +110,7 @@ const BookDetail = () => {
           setUserRating(value);
           setMessage("Рейтинг сохранён");
           setEditMode(false);
-          return fetch(`http://localhost:8000/api/data/books/${id}`);
+          return fetch(`${REACT_APP_API_BASE_URL}/data/books/${id}`);
         } else {
           throw new Error("Ошибка при сохранении рейтинга");
         }
@@ -131,7 +131,7 @@ const BookDetail = () => {
   const photoUrl = book.photo
     ? book.photo.startsWith("http")
       ? book.photo
-      : `http://localhost:8000${book.photo}`
+      : `${REACT_APP_API_BASE_URL}${book.photo}`
     : null;
 
   const authorName = book.author_info

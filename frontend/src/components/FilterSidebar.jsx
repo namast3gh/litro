@@ -8,7 +8,7 @@ const FilterSidebar = ({ onFilterChange }) => {
   const [showMoreGenres, setShowMoreGenres] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/data/genres")
+    fetch(`${REACT_APP_API_BASE_URL}/data/genres`)
       .then(res => res.json())
       .then(data => setGenres(data));
   }, []);

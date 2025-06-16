@@ -10,7 +10,7 @@ const FreeBooks = () => {
   useEffect(() => {
     const fetchFreeBooks = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/data/books/free");
+        const res = await fetch(`${REACT_APP_API_BASE_URL}/data/books/free`);
         if (!res.ok) throw new Error("Ошибка загрузки бесплатных книг");
         const data = await res.json();
         setBooks(data);
@@ -33,7 +33,7 @@ const FreeBooks = () => {
         )}
         {books.map((book) => {
           const photoUrl =
-            book.photo && (book.photo.startsWith("http") ? book.photo : `http://localhost:8000${book.photo}`);
+            book.photo && (book.photo.startsWith("http") ? book.photo : `http://87.228.102.111:8000${book.photo}`);
 
           const authorName = book.author_info
             ? book.author_info.name || book.author_info.username
