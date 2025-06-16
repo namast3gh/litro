@@ -9,6 +9,8 @@ const Profile = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [purchaseHistory, setPurchaseHistory] = useState([]);
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   // Для модального окна редактирования
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editValues, setEditValues] = useState({
@@ -60,7 +62,7 @@ const Profile = () => {
 
     const fetchHistory = async () => {
       try {
-        const response = await fetch(`${REACT_APP_API_BASE_URL}/profile/purchase-history`, {
+        const response = await fetch(`${API_BASE_URL}/profile/purchase-history`, {
           headers: {
             Authorization: `Bearer ${user.access_token}`,
           },
@@ -97,7 +99,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("photo", file);
 
-      const response = await fetch(`${REACT_APP_API_BASE_URL}/users/upload-photo`,
+      const response = await fetch(`${API_BASE_URL}/users/upload-photo`,
         {
           method: "POST",
           headers: {
@@ -132,7 +134,7 @@ const Profile = () => {
     setError(null);
 
     try {
-      const response = await fetch(`${REACT_APP_API_BASE_URL}/users/delete-photo`,
+      const response = await fetch(`${API_BASE_URL}/users/delete-photo`,
         {
           method: "DELETE",
           headers: {
@@ -214,7 +216,7 @@ const Profile = () => {
       }
 
       const response = await fetch(
-        `${REACT_APP_API_BASE_URL}/users/update-profile`,
+        `${API_BASE_URL}/users/update-profile`,
         {
           method: "PUT",
           headers: {
@@ -493,7 +495,7 @@ const Profile = () => {
             <ul className="space-y-4">
               {purchaseHistory.map((item) => {
                 const downloadUrl = user
-                ? `${REACT_APP_API_BASE_URL}/data/books/download/${item.book.id}`
+                ? `${API_BASE_URL}/data/books/download/${item.book.id}`
                 : null;
 
                 return (

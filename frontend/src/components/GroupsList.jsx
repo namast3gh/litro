@@ -9,11 +9,12 @@ const GroupList = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
   const isAdmin = user && user.id_role === 1;
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const res = await fetch(`${REACT_APP_API_BASE_URL}/data/groups`);
+        const res = await fetch(`${API_BASE_URL}/data/groups`);
         if (!res.ok) throw new Error("Ошибка загрузки групп");
         const data = await res.json();
         setGroups(data);
@@ -33,14 +34,14 @@ const GroupList = () => {
     if (!window.confirm("Вы точно хотите удалить эту книгу?")) return;
 
     try {
-      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/books/${bookId}`, {
+      const res = await fetch(`${API_BASE_URL}/data/books/${bookId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Ошибка при удалении книги");
 
       // Обновляем список групп после удаления
-      const resGroups = await fetch(`${REACT_APP_API_BASE_URL}/data/groups`);
+      const resGroups = await fetch(`${API_BASE_URL}/data/groups`);
       if (!resGroups.ok) throw new Error("Ошибка загрузки групп");
       const dataGroups = await resGroups.json();
       setGroups(dataGroups);

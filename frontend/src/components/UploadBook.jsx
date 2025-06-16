@@ -13,13 +13,15 @@ const UploadBook = () => {
   const [content, setContent] = useState(null);
   const [message, setMessage] = useState("");
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user?.access_token || null;
 
   const allowedRoles = [4]
 
   useEffect(() => {
-    fetch(`${REACT_APP_API_BASE_URL}/data/genres`)
+    fetch(`${API_BASE_URL}/data/genres`)
       .then((res) => res.json())
       .then((data) => setGenres(data))
       .catch(() => setMessage("Ошибка загрузки списка жанров"));
@@ -62,7 +64,7 @@ const UploadBook = () => {
     formData.append("content", content);
 
     try {
-      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/upload-book`, {
+      const res = await fetch(`${API_BASE_URL}/data/upload-book`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -8,6 +8,7 @@ import { FiX } from "react-icons/fi";
 const BooksList = () => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
@@ -32,11 +33,11 @@ const BooksList = () => {
 
   const fetchBooks = async () => {
     try {
-      let url = `${REACT_APP_API_BASE_URL}/data/books/filter?`;
+      let url = `${API_BASE_URL}/data/books/filter?`;
       const urlParams = new URLSearchParams();
 
       if (searchQuery) {
-        url = `${REACT_APP_API_BASE_URL}/data/books/search?q=${encodeURIComponent(searchQuery)}`;
+        url = `${API_BASE_URL}/data/books/search?q=${encodeURIComponent(searchQuery)}`;
       } else {
         if (filters.genre_ids && filters.genre_ids.length > 0) {
           filters.genre_ids.forEach((id) => urlParams.append("genre_ids", id));
@@ -81,7 +82,7 @@ const BooksList = () => {
     if (!window.confirm("Вы точно хотите удалить эту книгу?")) return;
 
     try {
-      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/books/${bookId}`, {
+      const res = await fetch(`${API_BASE_URL}/data/books/${bookId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

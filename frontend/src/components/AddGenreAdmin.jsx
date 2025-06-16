@@ -5,6 +5,8 @@ const AddGenreAdmin = () => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
 
@@ -25,7 +27,7 @@ const AddGenreAdmin = () => {
     }
 
     try {
-      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/genres`, {
+      const res = await fetch(`${API_BASE_URL}/data/genres`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

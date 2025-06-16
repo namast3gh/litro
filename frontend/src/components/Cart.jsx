@@ -8,9 +8,11 @@ const Cart = () => {
   const [selectedBooks, setSelectedBooks] = useState(new Set());
   const [successMessage, setSuccessMessage] = useState(null); // Новое состояние для сообщения
   const token = localStorage.getItem("token");
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 
   const fetchCart = () => {
-    fetch(`${REACT_APP_API_BASE_URL}/cart`, {
+    fetch(`${API_BASE_URL}/cart`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
@@ -26,7 +28,7 @@ const Cart = () => {
   }, []);
 
   const removeFromCart = (bookId) => {
-    fetch(`${REACT_APP_API_BASE_URL}/cart/remove/${bookId}`, {
+    fetch(`${API_BASE_URL}/cart/remove/${bookId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -67,7 +69,7 @@ const Cart = () => {
       return;
     }
     try {
-      const response = await fetch(`${REACT_APP_API_BASE_URL}/cart/checkout`, {
+      const response = await fetch(`${API_BASE_URL}/cart/checkout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +128,7 @@ const Cart = () => {
           const photoUrl = book.photo
             ? book.photo.startsWith("http")
               ? book.photo
-              : `${REACT_APP_API_BASE_URL}${book.photo}`
+              : `http://87.228.102.111:8000${book.photo}`
             : "https://via.placeholder.com/100x140?text=Нет+изображения";
           const isSelected = selectedBooks.has(book.id);
 

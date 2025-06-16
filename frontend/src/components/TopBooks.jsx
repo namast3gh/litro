@@ -11,10 +11,14 @@ const TopBooks = () => {
   const token = localStorage.getItem("token");
   const isAdmin = user && user.id_role === 1;
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  console.log("API_BASE_URL:", API_BASE_URL);
+  
+
   useEffect(() => {
     const fetchTopBooks = async () => {
       try {
-        const res = await fetch(`${REACT_APP_API_BASE_URL}/data/books/top`);
+        const res = await fetch(`${API_BASE_URL}/data/books/top`);
         if (!res.ok) throw new Error("Ошибка загрузки топ книг");
         const data = await res.json();
         setBooks(data);
@@ -34,7 +38,7 @@ const TopBooks = () => {
     if (!window.confirm("Вы точно хотите удалить эту книгу?")) return;
 
     try {
-      const res = await fetch(`${REACT_APP_API_BASE_URL}/data/books/${bookId}`, {
+      const res = await fetch(`${API_BASE_URL}/data/books/${bookId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
