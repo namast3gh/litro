@@ -1,0 +1,50 @@
+services:
+  backend:
+    build: ./backend
+    container_name: fastapi-backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 80
+    ports:
+      - "8000:80"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/library
+    depends_on:
+      - db
+    volumes:
+      - ./backend/alembic:/app/alembic
+      - ./backend/app:/app/app
+      - ./uploads:/app/uploads  # <--- добавьте эту строку для монтирования uploads
+
+
+  frontend:
+    build: ./frontend
+    container_name: react-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: library
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
