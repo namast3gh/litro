@@ -17,10 +17,8 @@ const BookDetail = () => {
 
   const ratingLoaded = useRef(false);
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
   useEffect(() => {
-    fetch(`${API_BASE_URL}/data/books/${id}`)
+    fetch(`http://87.228.102.111:8000/api/data/books/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Ошибка загрузки книги");
         return res.json();
@@ -32,7 +30,7 @@ const BookDetail = () => {
   useEffect(() => {
     if (ratingLoaded.current) return;
     if (user && token) {
-      fetch(`${API_BASE_URL}/data/ratings/user/${user.id}/book/${id}`, {
+      fetch(`http://87.228.102.111:8000/api/data/ratings/user/${user.id}/book/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => {
@@ -66,7 +64,7 @@ const BookDetail = () => {
       setInCart(false);
       return;
     }
-    fetch(`${API_BASE_URL}/cart`, {
+    fetch("http://87.228.102.111:8000/api/cart", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
@@ -81,7 +79,7 @@ const BookDetail = () => {
       setMessage("Пожалуйста, войдите, чтобы добавить в корзину");
       return;
     }
-    fetch(`${API_BASE_URL}/cart/add/${id}`, {
+    fetch(`http://87.228.102.111:8000/api/cart/add/${id}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -99,7 +97,7 @@ const BookDetail = () => {
       return;
     }
 
-    fetch(`${API_BASE_URL}/data/books/rate`, {
+    fetch("http://87.228.102.111:8000/api/data/books/rate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -112,7 +110,7 @@ const BookDetail = () => {
           setUserRating(value);
           setMessage("Рейтинг сохранён");
           setEditMode(false);
-          return fetch(`${API_BASE_URL}/data/books/${id}`);
+          return fetch(`http://87.228.102.111:8000/api/data/books/${id}`);
         } else {
           throw new Error("Ошибка при сохранении рейтинга");
         }
@@ -133,7 +131,7 @@ const BookDetail = () => {
   const photoUrl = book.photo
     ? book.photo.startsWith("http")
       ? book.photo
-      : `${API_BASE_URL}${book.photo}`
+      : `http://87.228.102.111:8000${book.photo}`
     : null;
 
   const authorName = book.author_info

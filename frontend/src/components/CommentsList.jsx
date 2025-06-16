@@ -19,10 +19,8 @@ const CommentsList = ({ bookId }) => {
   const userComment = comments.find(c => c.id_user === user?.id);
   const isAdmin = user && (user.role?.toLowerCase() === "admin" || user.id_role === 1);
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
   useEffect(() => {
-    fetch(`${API_BASE_URL}/comments/book/${bookId}`)
+    fetch(`http://87.228.102.111:8000/api/comments/book/${bookId}`)
       .then((res) => {
         if (!res.ok) throw new Error("Ошибка загрузки комментариев");
         return res.json();
@@ -51,7 +49,7 @@ const CommentsList = ({ bookId }) => {
       return;
     }
 
-    fetch(`${API_BASE_URL}/comments/`, {
+    fetch("http://87.228.102.111:8000/api/comments/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +74,7 @@ const CommentsList = ({ bookId }) => {
       setError("Требуется авторизация для удаления комментария");
       return;
     }
-    fetch(`${API_BASE_URL}/comments/${commentId}`, {
+    fetch(`http://87.228.102.111:8000/api/comments/${commentId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

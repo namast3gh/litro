@@ -37,6 +37,6 @@ function UserAuthorsList() {
       )}
     </div>
   );
-}
+}z
 
 export default UserAuthorsList;

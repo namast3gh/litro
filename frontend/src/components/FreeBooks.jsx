@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StarRating from "./StarRating";
 
-
-
 const FreeBooks = () => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
     const fetchFreeBooks = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/data/books/free`);
+        const res = await fetch("http://87.228.102.111:8000/api/data/books/free");
         if (!res.ok) throw new Error("Ошибка загрузки бесплатных книг");
         const data = await res.json();
         setBooks(data);

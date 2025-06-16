@@ -42,7 +42,7 @@ async def upload_photo(
     await db.commit()
     await db.refresh(user)
 
-    photo_url = f"http://localhost:8000{user.photo}"
+    photo_url = f"http://87.228.102.111:8000{user.photo}"
     return JSONResponse(content={"photo": photo_url})
 
 @router.delete("/delete-photo")

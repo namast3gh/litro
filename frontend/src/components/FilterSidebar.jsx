@@ -6,10 +6,9 @@ const FilterSidebar = ({ onFilterChange }) => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [showMoreGenres, setShowMoreGenres] = useState(false);
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/data/genres`)
+    fetch("http://87.228.102.111:8000/api/data/genres")
       .then(res => res.json())
       .then(data => setGenres(data));
   }, []);

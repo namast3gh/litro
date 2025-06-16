@@ -11,7 +11,7 @@ from typing import List
 from sqlalchemy.orm import selectinload
 
 router = APIRouter(prefix="/comments", tags=["comments"])
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://87.228.102.111:8000"
 
 async def get_db():
     async with async_session_maker() as session:

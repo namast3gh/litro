@@ -8,11 +8,9 @@ const Cart = () => {
   const [selectedBooks, setSelectedBooks] = useState(new Set());
   const [successMessage, setSuccessMessage] = useState(null); // Новое состояние для сообщения
   const token = localStorage.getItem("token");
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
 
   const fetchCart = () => {
-    fetch(`${API_BASE_URL}/cart`, {
+    fetch("http://87.228.102.111:8000/api/cart", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
@@ -28,7 +26,7 @@ const Cart = () => {
   }, []);
 
   const removeFromCart = (bookId) => {
-    fetch(`${API_BASE_URL}/cart/remove/${bookId}`, {
+    fetch(`http://87.228.102.111:8000/api/cart/remove/${bookId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -69,7 +67,7 @@ const Cart = () => {
       return;
     }
     try {
-      const response = await fetch(`${API_BASE_URL}/cart/checkout`, {
+      const response = await fetch("http://87.228.102.111:8000/api/cart/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
