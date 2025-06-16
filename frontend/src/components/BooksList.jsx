@@ -32,11 +32,11 @@ const BooksList = () => {
 
   const fetchBooks = async () => {
     try {
-      let url = "http://localhost:8000/api/data/books/filter?";
+      let url = "http://87.228.102.111:8000/api/data/books/filter?";
       const urlParams = new URLSearchParams();
 
       if (searchQuery) {
-        url = `http://localhost:8000/api/data/books/search?q=${encodeURIComponent(searchQuery)}`;
+        url = `http://87.228.102.111:8000/api/data/books/search?q=${encodeURIComponent(searchQuery)}`;
       } else {
         if (filters.genre_ids && filters.genre_ids.length > 0) {
           filters.genre_ids.forEach((id) => urlParams.append("genre_ids", id));
@@ -81,7 +81,7 @@ const BooksList = () => {
     if (!window.confirm("Вы точно хотите удалить эту книгу?")) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/data/books/${bookId}`, {
+      const res = await fetch(`http://87.228.102.111:8000/api/data/books/${bookId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
