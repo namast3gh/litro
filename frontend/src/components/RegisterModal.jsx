@@ -101,6 +101,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
 
   const handleRoleChange = (e) => {
     setRole(e.target.value);
+
     if (e.target.value !== 'author') {
       setAuthorAgree(false);
     }
@@ -147,16 +148,24 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
         password,
         id_role: roleMap[role],
       };
-      if (role === 'author') {
+      if (role === "author") {
         payload.name = name;
         payload.biography = biography;
       }
       await api.post('/auth/register', payload);
 
-      // После успешной регистрации показываем окно успеха
+      const loginResponse = await api.post('/auth/login', { email, password });
+
+      const userWithToken = {
+        ...loginResponse.data.user,
+        access_token: loginResponse.data.access_token,
+      };
+      localStorage.setItem('user', JSON.stringify(userWithToken));
+      localStorage.setItem('token', loginResponse.data.access_token);
+
       setSuccessOpen(true);
     } catch (error) {
-      const errorMsg = error.response?.data?.detail || error.message || 'Ошибка регистрации';
+      const errorMsg = error.response?.data?.detail;
       setError(typeof errorMsg === 'string' ? errorMsg : JSON.stringify(errorMsg));
     } finally {
       setLoading(false);
@@ -166,12 +175,11 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
   const closeSuccess = () => {
     setSuccessOpen(false);
     onClose();
-    onLoginClick(); // Открываем форму входа
+    window.location.href = '/';
   };
 
   return (
     <>
-      {/* Основное модальное окно регистрации */}
       <Dialog open={isOpen} onClose={onClose} className="fixed inset-0 z-50 overflow-y-auto">
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
         <div className="flex items-center justify-center min-h-screen px-4 relative">
@@ -235,7 +243,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
                   <option value="author">Автор</option>
                 </select>
               </div>
-              {role === 'author' && (
+              {role === "author" && (
                 <>
                   <div>
                     <label>ФИО:</label>
@@ -333,8 +341,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
         <div className="flex items-center justify-center min-h-screen px-4 relative">
           <Dialog.Panel className="w-full max-w-sm p-6 bg-white rounded shadow-lg z-10 text-center">
-            <Dialog.Title className="text-xl font-semibold mb-2">Успешная регистрация!</Dialog.Title>
-            <p>Войдите в аккаунт.</p>
+            <Dialog.Title className="text-xl font-semibold mb-4">Регистрация прошла успешно!</Dialog.Title>
             <button
               onClick={closeSuccess}
               className="mt-4 px-6 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
