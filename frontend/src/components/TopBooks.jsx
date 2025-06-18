@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StarRating from "./StarRating";
+import { FiX } from "react-icons/fi";
+
 
 const TopBooks = () => {
   const [books, setBooks] = useState([]);
@@ -80,9 +82,10 @@ const TopBooks = () => {
                   title="Удалить книгу"
                   aria-label="Удалить книгу"
                 >
-                  &#10006;
+                  <FiX size={20} />
                 </button>
               )}
+
               {photoUrl ? (
                 <img
                   src={photoUrl}

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FiX } from "react-icons/fi";
+
 
 const GroupList = () => {
   const [groups, setGroups] = useState([]);
@@ -65,19 +67,20 @@ const GroupList = () => {
                 key={book.id}
                 className="relative cursor-pointer rounded overflow-hidden shadow-lg hover:shadow-2xl transition-shadow bg-white flex flex-col"
               >
-                {isAdmin && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteBook(book.id, group.id);
-                    }}
-                    className="absolute top-2 right-2 z-10 bg-white rounded-full p-2 shadow-md hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center"
-                    title="Удалить книгу"
-                    aria-label="Удалить книгу"
-                  >
-                    &#10006;
-                  </button>
-                )}
+              {isAdmin && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteBook(book.id, group.id);
+                  }}
+                  className="absolute top-2 right-2 z-10 bg-white rounded-full p-2 shadow-md hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center"
+                  title="Удалить книгу"
+                  aria-label="Удалить книгу"
+                >
+                  <FiX size={20} />
+                </button>
+              )}
+
                 {book.photo ? (
                   <img
                     src={book.photo.startsWith("http") ? book.photo : `http://87.228.102.111:8000${book.photo}`}
