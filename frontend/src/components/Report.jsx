@@ -9,17 +9,17 @@ const Report = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetch(`${API_BASE_URL}/report/sales`, {
-        headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Ошибка загрузки отчета");
+        return res.json();
       })
-        .then(async (res) => {
-          const text = await res.text();
-          console.log("Response text:", text); // Выведет ответ сервера
-          if (!res.ok) throw new Error("Ошибка загрузки отчета");
-          return JSON.parse(text); // Попытка распарсить JSON вручную
-        })
-        .then(setReport)
-        .catch((err) => setError(err.message));
-      
+      .then((data) => {
+        console.log("Report data:", data);
+        setReport(data);
+      })
+      .catch((err) => setError(err.message));
   }, []);
 
   if (error) {
@@ -46,12 +46,20 @@ const Report = () => {
           </tr>
         </thead>
         <tbody>
-          {report.books.map((book) => (
-            <tr key={book.id}>
-              <td className="py-2 px-4 border">{book.title}</td>
-              <td className="py-2 px-4 border text-center">{book.sold_count}</td>
+          {report.books && report.books.length > 0 ? (
+            report.books.map((book) => (
+              <tr key={book.id}>
+                <td className="py-2 px-4 border">{book.title}</td>
+                <td className="py-2 px-4 border text-center">{book.sold_count}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="2" className="text-center py-4">
+                Нет данных для отображения
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>
