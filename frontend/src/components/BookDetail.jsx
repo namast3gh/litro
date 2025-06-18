@@ -142,11 +142,13 @@ const BookDetail = () => {
     <div className="max-w-4xl mx-auto p-6 bg-white rounded shadow mt-10">
       <div className="flex flex-col md:flex-row gap-6">
         {photoUrl && (
-          <img
-            src={photoUrl}
-            alt={book.title}
-            className="w-full h-full object-cover rounded"
-          />
+          <div className="w-48 h-64 rounded overflow-hidden flex-shrink-0">
+            <img
+              src={photoUrl}
+              alt={book.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
         )}
         <div className="flex flex-col flex-grow">
           <h1 className="text-3xl font-bold mb-2">{book.title}</h1>
