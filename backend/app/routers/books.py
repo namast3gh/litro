@@ -525,7 +525,12 @@ async def delete_book_from_group(
 
 @router.get("/report/sales", dependencies=[Depends(RoleChecker(["admin"]))])
 async def get_sales_report(db: AsyncSession = Depends(get_db)):
-    # Количество проданных экземпляров по каждой книге
+    # Получаем все покупки для отладки
+    all_purchases = await db.execute(select(PurchaseHistory))
+    all_purchases_list = all_purchases.scalars().all()
+    print("ВСЕ ПОКУПКИ:", all_purchases_list)
+    
+    # Ваш основной запрос
     result = await db.execute(
         select(
             Book.id,
@@ -540,9 +545,12 @@ async def get_sales_report(db: AsyncSession = Depends(get_db)):
         {"id": row[0], "title": row[1], "sold_count": row[2] or 0}
         for row in result.all()
     ]
-    # Общая сумма проданных экземпляров
+    print("SALES:", sales)
+
     total_result = await db.execute(
         select(func.sum(PurchaseHistory.quantity))
     )
     total_sold = total_result.scalar() or 0
+    print("TOTAL SOLD:", total_sold)
+
     return {"total_sold": total_sold, "books": sales}
