@@ -151,6 +151,12 @@ const Header = () => {
                     >
                       Отчетность
                     </Link>
+                    <Link
+                      to="/statistics"
+                      className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors whitespace-nowrap"
+                    >
+                      Статистика
+                    </Link>
                   </>
                 )}
 
@@ -322,6 +328,13 @@ const Header = () => {
                         onClick={closeMobileMenu}
                       >
                         Отчетность
+                      </Link>
+                      <Link
+                        to="/statistics"
+                        className="block w-full bg-purple-600 text-white text-center px-4 py-3 rounded-lg hover:bg-purple-700 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Статистика
                       </Link>
                     </>
                   )}
