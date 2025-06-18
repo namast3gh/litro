@@ -4,8 +4,8 @@ import logging
 
 router = APIRouter()
 
-UMAMI_API_KEY = "api_Rh31fkqcgnY6JqXcJejHXs7BbjMVLmW1"  # ключ прописан прямо
-UMAMI_API_URL = "https://api.umami.is/v1/websites/8bca10d0-fdf5-4e2e-a57a-fddcd844f1a0/stats/overview"
+UMAMI_API_KEY = "api_Rh31fkqcgnY6JqXcJejHXs7BbjMVLmW1"
+UMAMI_API_URL = "https://api.umami.is/v1/websites/8bca10d0-fdf5-4e2e-a57a-fddcd844f1a0/stats"
 
 @router.get("/umami/stats")
 async def get_umami_stats():
