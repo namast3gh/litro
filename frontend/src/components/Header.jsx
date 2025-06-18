@@ -145,8 +145,15 @@ const Header = () => {
                     >
                       Добавить жанр
                     </Link>
+                    <Link
+                      to="/report"
+                      className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors whitespace-nowrap"
+                    >
+                      Отчетность
+                    </Link>
                   </>
                 )}
+
                 <button
                   onClick={handleLogout}
                   className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors"
@@ -308,6 +315,13 @@ const Header = () => {
                         onClick={closeMobileMenu}
                       >
                         Добавить жанр
+                      </Link>
+                      <Link
+                        to="/report"
+                        className="block w-full bg-amber-600 text-white text-center px-4 py-3 rounded-lg hover:bg-amber-700 transition-colors"
+                        onClick={closeMobileMenu}
+                      >
+                        Отчетность
                       </Link>
                     </>
                   )}

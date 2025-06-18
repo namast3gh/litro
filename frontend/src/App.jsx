@@ -31,6 +31,7 @@ import About from './components/About';
 
 import UploadBookAdmin from './components/UploadBookAdmin';
 import AddGenreAdmin from './components/AddGenreAdmin';
+import Report from './components/Report';
 
 
 
@@ -106,6 +107,7 @@ function App() {
             <Route path="/faq/edit-profile" element={<FaqEditProfile />} />
             <Route path="/upload-book-admin" element={<UploadBookAdmin />} />
             <Route path="/add-genre-admin" element={<AddGenreAdmin />} />
+            <Route path="/report" element={<Report />} />
 
             <Route path="*" element={<h2 className="p-8 text-center">Страница не найдена</h2>} />
           </Routes>

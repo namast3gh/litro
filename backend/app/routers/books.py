@@ -522,3 +522,27 @@ async def delete_book_from_group(
     )
     await db.commit()
     return None
+
+@router.get("/report/sales", dependencies=[Depends(RoleChecker(["admin"]))])
+async def get_sales_report(db: AsyncSession = Depends(get_db)):
+    # Количество проданных экземпляров по каждой книге
+    result = await db.execute(
+        select(
+            Book.id,
+            Book.title,
+            func.sum(PurchaseHistory.quantity).label("sold_count")
+        )
+        .join(PurchaseHistory, PurchaseHistory.book_id == Book.id)
+        .group_by(Book.id)
+        .order_by(func.sum(PurchaseHistory.quantity).desc())
+    )
+    sales = [
+        {"id": row[0], "title": row[1], "sold_count": row[2] or 0}
+        for row in result.all()
+    ]
+    # Общая сумма проданных экземпляров
+    total_result = await db.execute(
+        select(func.sum(PurchaseHistory.quantity))
+    )
+    total_sold = total_result.scalar() or 0
+    return {"total_sold": total_sold, "books": sales}
