@@ -7,15 +7,21 @@ const Statistics = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/umami/stats`)  // Запрос к вашему backend
+    fetch(`${API_BASE_URL}/umami/stats`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Ошибка API: ${res.status}`);
         }
         return res.json();
       })
-      .then((data) => setStats(data))
-      .catch((err) => setError(err.message));
+      .then((data) => {
+        console.log("Umami stats data:", data);  // <-- добавьте лог
+        setStats(data);
+      })
+      .catch((err) => {
+        console.error("Ошибка при загрузке статистики:", err);
+        setError(err.message);
+      });
   }, []);
 
   if (error) {
