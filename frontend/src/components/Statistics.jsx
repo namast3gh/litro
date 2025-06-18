@@ -11,34 +11,30 @@ const UmamiDashboard = () => {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
 
-      // Проверяем роль
       if (parsedUser.id_role !== 1) {
-        // Если не админ — редирект на главную или другую страницу
         navigate("/", { replace: true });
       }
     } else {
-      // Если пользователь не залогинен — редирект на вход
       navigate("/login", { replace: true });
     }
   }, [navigate]);
 
-  // Пока проверяем — можно показать загрузку или пустой экран
   if (!user) {
     return <div>Загрузка...</div>;
   }
 
-  // Если роль админа, показываем iframe с дашбордом
   return (
     <div
       style={{
         position: "fixed",
-        top: 0,
+        top: "64px", // высота шапки
         left: 0,
-        width: "100%",
-        height: "100%",
+        right: 0,
+        bottom: 0,
         margin: 0,
         padding: 0,
         overflow: "hidden",
+        zIndex: 0, // ниже шапки (которая z-50)
       }}
     >
       <iframe
