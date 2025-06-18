@@ -40,14 +40,28 @@ function useUmamiTracker() {
   const location = useLocation();
 
   useEffect(() => {
-    if (window.umami) {
-      window.umami.trackView(location.pathname);
+    const trackPageView = () => {
+      if (window.umami && typeof window.umami.trackView === 'function') {
+        window.umami.trackView(location.pathname);
+      }
+    };
+
+    if (window.umami && typeof window.umami.trackView === 'function') {
+      trackPageView();
+    } else {
+      const interval = setInterval(() => {
+        if (window.umami && typeof window.umami.trackView === 'function') {
+          trackPageView();
+          clearInterval(interval);
+        }
+      }, 100);
+
+      return () => clearInterval(interval);
     }
   }, [location]);
 }
 
 function AppContent() {
-  // Добавляем скрипт один раз при монтировании
   useEffect(() => {
     if (!document.querySelector(`script[src="${UMAMI_SCRIPT_URL}"]`)) {
       const script = document.createElement('script');
@@ -68,7 +82,6 @@ function AppContent() {
       </nav>
       <main className="flex-grow">
         <Routes>
-          {/* Ваши маршруты */}
           <Route path="/authors" element={<AuthorsList />} />
           <Route path="/books" element={<BooksList />} />
           <Route path="/comments" element={<CommentsList />} />
