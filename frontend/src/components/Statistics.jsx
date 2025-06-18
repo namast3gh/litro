@@ -25,27 +25,25 @@ const UmamiDashboard = () => {
 
   return (
     <div
-      style={{
-        position: "fixed",
-        top: "64px", // высота шапки
-        left: 0,
-        right: 0,
-        bottom: 0,
-        margin: 0,
-        padding: 0,
-        overflow: "hidden",
-        zIndex: 0, // ниже шапки (которая z-50)
-      }}
-    >
-      <div className="fixed top-16 left-0 right-0 bottom-0 overflow-hidden z-0">
-        <iframe
-          src="https://cloud.umami.is/share/YcldVvEvgGiaZbiy/87.228.102.111"
-          title="Umami Public Dashboard"
-          className="w-full h-full border-0"
-          allowFullScreen
-        />
-      </div>
-    </div>
+  style={{
+    position: "fixed",
+    top: "64px",    // ниже шапки
+    left: 0,
+    right: 0,
+    bottom: 0,
+    margin: 0,
+    padding: 0,
+    overflow: "hidden",
+    zIndex: 0,      // ниже z-50 шапки
+  }}
+>
+  <iframe
+    src="https://cloud.umami.is/share/YcldVvEvgGiaZbiy/87.228.102.111"
+    title="Umami Public Dashboard"
+    style={{ border: "none", width: "100%", height: "100%" }}
+    allowFullScreen
+  />
+</div>
   );
 };
 
