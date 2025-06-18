@@ -15,7 +15,7 @@ const Statistics = () => {
         return res.json();
       })
       .then((data) => {
-        console.log("Umami stats data:", data);  // <-- добавьте лог
+        console.log("Umami stats data:", data); // Логируем ответ для проверки структуры
         setStats(data);
       })
       .catch((err) => {
@@ -32,20 +32,25 @@ const Statistics = () => {
     return <div className="text-center mt-4">Загрузка статистики...</div>;
   }
 
+  // Обрабатываем возможную вложенность данных (например, stats.data)
+  const visitors = stats.visitors ?? stats.data?.visitors ?? "—";
+  const pageviews = stats.pageviews ?? stats.data?.pageviews ?? "—";
+  const bounceRate = stats.bounce_rate ?? stats.data?.bounce_rate ?? "—";
+
   return (
     <div className="max-w-5xl mx-auto p-6 mt-10 bg-white rounded shadow">
       <h1 className="text-3xl font-bold mb-6 text-center">Статистика Umami</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
         <div>
-          <div className="text-4xl font-bold">{stats.visitors}</div>
+          <div className="text-4xl font-bold">{visitors}</div>
           <div className="text-gray-600">Посетителей</div>
         </div>
         <div>
-          <div className="text-4xl font-bold">{stats.pageviews}</div>
+          <div className="text-4xl font-bold">{pageviews}</div>
           <div className="text-gray-600">Просмотров страниц</div>
         </div>
         <div>
-          <div className="text-4xl font-bold">{stats.bounce_rate}%</div>
+          <div className="text-4xl font-bold">{bounceRate}%</div>
           <div className="text-gray-600">Показатель отказов</div>
         </div>
       </div>
