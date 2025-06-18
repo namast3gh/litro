@@ -9,14 +9,17 @@ const Report = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetch(`${API_BASE_URL}/report/sales`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Ошибка загрузки отчета");
-        return res.json();
+        headers: { Authorization: `Bearer ${token}` },
       })
-      .then(setReport)
-      .catch((err) => setError(err.message));
+        .then(async (res) => {
+          const text = await res.text();
+          console.log("Response text:", text); // Выведет ответ сервера
+          if (!res.ok) throw new Error("Ошибка загрузки отчета");
+          return JSON.parse(text); // Попытка распарсить JSON вручную
+        })
+        .then(setReport)
+        .catch((err) => setError(err.message));
+      
   }, []);
 
   if (error) {
