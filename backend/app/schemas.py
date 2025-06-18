@@ -23,8 +23,8 @@ class UserSchema(BaseModel):
     email: EmailStr
     id_role: int
     role: Optional[str] = None
-    photo: str
-    biography: str
+    photo: Optional[str] = None
+    biography: Optional[str] = None
 
     class Config:
         from_attributes = True

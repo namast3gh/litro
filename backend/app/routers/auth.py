@@ -5,6 +5,7 @@ from app.models import User, Role
 from app.schemas import UserCreateSchema, UserSchema
 from passlib.hash import bcrypt
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -37,4 +38,11 @@ async def register(user_data: UserCreateSchema = Body(...), db: AsyncSession = D
     db.add(user)
     await db.commit()
     await db.refresh(user)
-    return user
+
+    # Загрузим пользователя с ролью, чтобы избежать ленивой загрузки
+    user_with_role = await db.execute(
+        select(User).options(selectinload(User.role)).where(User.id == user.id)
+    )
+    user_obj = user_with_role.scalar_one()
+
+    return user_obj
