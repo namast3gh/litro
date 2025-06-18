@@ -14,8 +14,8 @@ async def get_umami_stats():
     }
     async with httpx.AsyncClient() as client:
         response = await client.get(UMAMI_API_URL, headers=headers)
-        if response.status_code == 401:
-            raise HTTPException(status_code=401, detail="Unauthorized: проверьте API-ключ Umami")
+        print(f"Umami API response status: {response.status_code}")
+        print(f"Umami API response body: {response.text}")
         if response.status_code != 200:
             raise HTTPException(status_code=response.status_code, detail="Ошибка Umami API")
         return response.json()
