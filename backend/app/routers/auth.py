@@ -39,10 +39,10 @@ async def register(user_data: UserCreateSchema = Body(...), db: AsyncSession = D
     await db.commit()
     await db.refresh(user)
 
-    # Загрузим пользователя с ролью, чтобы избежать ленивой загрузки
-    user_with_role = await db.execute(
+    # Загрузим пользователя с ролью, чтобы сериализация работала корректно
+    result = await db.execute(
         select(User).options(selectinload(User.role)).where(User.id == user.id)
     )
-    user_obj = user_with_role.scalar_one()
+    user_with_role = result.scalar_one()
 
-    return user_obj
+    return user_with_role

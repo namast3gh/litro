@@ -17,12 +17,19 @@ class GenreSchema(BaseModel):
     class Config:
         from_attributes = True
 
+class RoleSchema(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        from_attributes = True
+
 class UserSchema(BaseModel):
     id: int
     username: str
     email: EmailStr
     id_role: int
-    role: Optional[str] = None
+    role: Optional[RoleSchema] = None
     photo: Optional[str] = None
     biography: Optional[str] = None
 
