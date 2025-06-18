@@ -40,7 +40,7 @@ const LoginModal = ({ isOpen, onClose, onRegisterClick }) => {
           <Dialog.Title className="text-lg font-medium text-gray-900 mb-4">Вход</Dialog.Title>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Почта или телефон:</label>
+              <label className="block text-sm font-medium text-gray-700">Электронная почта:</label>
               <input
                 type="email"
                 value={email}
