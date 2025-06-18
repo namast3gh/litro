@@ -89,7 +89,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
   const [authorAgree, setAuthorAgree] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [successOpen, setSuccessOpen] = useState(false);
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [agreementOpen, setAgreementOpen] = useState(false);
   const [authorAgreementOpen, setAuthorAgreementOpen] = useState(false);
 
@@ -101,7 +101,6 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
 
   const handleRoleChange = (e) => {
     setRole(e.target.value);
-
     if (e.target.value !== 'author') {
       setAuthorAgree(false);
     }
@@ -141,6 +140,9 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
     if (!validate()) return;
 
     setLoading(true);
+    setError('');
+    setSuccessMessageVisible(false);
+
     try {
       const payload = {
         username,
@@ -148,34 +150,31 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
         password,
         id_role: roleMap[role],
       };
-      if (role === "author") {
+      if (role === 'author') {
         payload.name = name;
         payload.biography = biography;
       }
       await api.post('/auth/register', payload);
 
-      const loginResponse = await api.post('/auth/login', { email, password });
+      // Не логиним автоматически, а показываем сообщение об успехе
+      setSuccessMessageVisible(true);
 
-      const userWithToken = {
-        ...loginResponse.data.user,
-        access_token: loginResponse.data.access_token,
-      };
-      localStorage.setItem('user', JSON.stringify(userWithToken));
-      localStorage.setItem('token', loginResponse.data.access_token);
-
-      setSuccessOpen(true);
+      // Очистка полей (по желанию)
+      setEmail('');
+      setUsername('');
+      setName('');
+      setBiography('');
+      setPassword('');
+      setConfirmPassword('');
+      setAgree(false);
+      setAuthorAgree(false);
+      setRole('user');
     } catch (error) {
-      const errorMsg = error.response?.data?.detail;
+      const errorMsg = error.response?.data?.detail || error.message || 'Ошибка регистрации';
       setError(typeof errorMsg === 'string' ? errorMsg : JSON.stringify(errorMsg));
     } finally {
       setLoading(false);
     }
-  };
-
-  const closeSuccess = () => {
-    setSuccessOpen(false);
-    onClose();
-    window.location.href = '/';
   };
 
   return (
@@ -243,7 +242,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
                   <option value="author">Автор</option>
                 </select>
               </div>
-              {role === "author" && (
+              {role === 'author' && (
                 <>
                   <div>
                     <label>ФИО:</label>
@@ -308,6 +307,14 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
                   {error}
                 </div>
               )}
+
+              {/* Здесь выводим сообщение об успешной регистрации */}
+              {successMessageVisible && (
+                <div className="text-green-600 text-center mt-4 font-semibold">
+                  Успешная регистрация! Войдите в аккаунт.
+                </div>
+              )}
+
               <button
                 type="submit"
                 disabled={loading || !agree || (role === 'author' && !authorAgree)}
@@ -336,23 +343,8 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
         </div>
       </Dialog>
 
-      {/* Модальное окно успешной регистрации */}
-      <Dialog open={successOpen} onClose={closeSuccess} className="fixed inset-0 z-50 overflow-y-auto">
-        <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
-        <div className="flex items-center justify-center min-h-screen px-4 relative">
-          <Dialog.Panel className="w-full max-w-sm p-6 bg-white rounded shadow-lg z-10 text-center">
-            <Dialog.Title className="text-xl font-semibold mb-4">Регистрация прошла успешно!</Dialog.Title>
-            <button
-              onClick={closeSuccess}
-              className="mt-4 px-6 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
-            >
-              Окей
-            </button>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
+      {/* Модальные окна пользовательского соглашения и договора автора */}
 
-      {/* Модальное окно пользовательского соглашения */}
       <Dialog open={agreementOpen} onClose={() => setAgreementOpen(false)} className="fixed inset-0 z-50 overflow-y-auto">
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
         <div className="flex items-center justify-center min-h-screen px-4 relative">
@@ -371,7 +363,6 @@ const RegisterModal = ({ isOpen, onClose, onLoginClick }) => {
         </div>
       </Dialog>
 
-      {/* Модальное окно договора автора */}
       <Dialog open={authorAgreementOpen} onClose={() => setAuthorAgreementOpen(false)} className="fixed inset-0 z-50 overflow-y-auto">
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
         <div className="flex items-center justify-center min-h-screen px-4 relative">
