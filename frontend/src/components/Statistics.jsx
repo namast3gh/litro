@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // например http://87.228.102.111:8000/api
+const API_BASE_URL = "http://87.228.102.111:8000/api"; // прописываем прямо URL backend
 
 const Statistics = () => {
   const [stats, setStats] = useState(null);
@@ -15,7 +15,7 @@ const Statistics = () => {
         return res.json();
       })
       .then((data) => {
-        console.log("Umami stats data:", data); // Логируем ответ для проверки структуры
+        console.log("Umami stats data:", data);
         setStats(data);
       })
       .catch((err) => {
@@ -32,7 +32,6 @@ const Statistics = () => {
     return <div className="text-center mt-4">Загрузка статистики...</div>;
   }
 
-  // Обрабатываем возможную вложенность данных (например, stats.data)
   const visitors = stats.visitors ?? stats.data?.visitors ?? "—";
   const pageviews = stats.pageviews ?? stats.data?.pageviews ?? "—";
   const bounceRate = stats.bounce_rate ?? stats.data?.bounce_rate ?? "—";
