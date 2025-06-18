@@ -24,17 +24,17 @@ const UmamiDashboard = () => {
   }
 
   return (
-    <div
+<div
   style={{
     position: "fixed",
-    top: "64px",    // ниже шапки
+    top: "64px", // высота шапки
     left: 0,
     right: 0,
     bottom: 0,
     margin: 0,
     padding: 0,
     overflow: "hidden",
-    zIndex: 0,      // ниже z-50 шапки
+    zIndex: 10, // ниже шапки (50), но выше других элементов
   }}
 >
   <iframe
@@ -44,6 +44,7 @@ const UmamiDashboard = () => {
     allowFullScreen
   />
 </div>
+
   );
 };
 
