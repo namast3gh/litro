@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 import httpx
+import logging
 
 router = APIRouter()
 
@@ -14,6 +15,11 @@ async def get_umami_stats():
     }
     async with httpx.AsyncClient() as client:
         response = await client.get(UMAMI_API_URL, headers=headers)
+        logging.info(f"Umami API response status: {response.status_code}")
+        logging.info(f"Umami API response body: {response.text}")
         if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail="Ошибка Umami API")
+            raise HTTPException(
+                status_code=response.status_code,
+                detail=f"Ошибка Umami API: {response.text}"
+            )
         return response.json()
