@@ -37,12 +37,14 @@ const UmamiDashboard = () => {
         zIndex: 0, // ниже шапки (которая z-50)
       }}
     >
-      <iframe
-        src="https://cloud.umami.is/share/YcldVvEvgGiaZbiy/87.228.102.111"
-        title="Umami Public Dashboard"
-        style={{ border: "none", width: "100%", height: "100%" }}
-        allowFullScreen
-      />
+      <div className="fixed top-16 left-0 right-0 bottom-0 overflow-hidden z-0">
+        <iframe
+          src="https://cloud.umami.is/share/YcldVvEvgGiaZbiy/87.228.102.111"
+          title="Umami Public Dashboard"
+          className="w-full h-full border-0"
+          allowFullScreen
+        />
+      </div>
     </div>
   );
 };
