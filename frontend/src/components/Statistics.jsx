@@ -42,7 +42,7 @@ const UmamiDashboard = () => {
       }}
     >
       <iframe
-        src="https://cloud.umami.is/share/YcldVvEvgGiaZbiy/87.228.102.111"
+        src="https://cloud.umami.is/share/YcldVvEvgGiaZbiy/87.228.102.111:3000"
         title="Umami Public Dashboard"
         style={{ border: "none", width: "100%", height: "100%" }}
         allowFullScreen
