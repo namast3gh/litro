@@ -28,7 +28,8 @@ app.include_router(books.router, prefix="/api/data", tags=["data"])
 app.include_router(comments.router, prefix="/api", tags=["comments"])
 app.include_router(cart.router, prefix="/api", tags=["cart"])
 app.include_router(groups.router, prefix="/api/data", tags=["groups"])
-app.include_router(umami.router, prefix="/api", tags=["umami"])
+
+app.include_router(umami.router, prefix="/api")
 
 
 @app.get("/")
