@@ -8,7 +8,7 @@ const Report = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch(`${API_BASE_URL}/report/sales`, {
+    fetch(`${API_BASE_URL}/data/report/sales`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(async (res) => {
