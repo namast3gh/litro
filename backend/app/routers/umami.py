@@ -13,10 +13,16 @@ async def get_umami_stats():
         "x-umami-api-key": UMAMI_API_KEY,
         "Accept": "application/json"
     }
-    async with httpx.AsyncClient() as client:
-        response = await client.get(UMAMI_API_URL, headers=headers)
-        logging.info(f"Umami API response status: {response.status_code}")
-        logging.info(f"Umami API response body: {response.text}")
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail=f"Ошибка Umami API: {response.text}")
-        return response.json()
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(UMAMI_API_URL, headers=headers)
+            logging.info(f"Umami API response status: {response.status_code}")
+            logging.info(f"Umami API response body: {response.text}")
+            response.raise_for_status()  # выбросит исключение для HTTP ошибок
+            return response.json()
+    except httpx.HTTPStatusError as exc:
+        logging.error(f"HTTP error while requesting Umami API: {exc.response.status_code} - {exc.response.text}")
+        raise HTTPException(status_code=exc.response.status_code, detail=f"Ошибка Umami API: {exc.response.text}")
+    except Exception as exc:
+        logging.error(f"Unexpected error: {exc}")
+        raise HTTPException(status_code=500, detail="Внутренняя ошибка сервера")
