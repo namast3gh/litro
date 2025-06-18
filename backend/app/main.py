@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import books, auth, login, upload, comments, cart, groups
+from app.routers import books, auth, login, upload, comments, cart, groups, umami
 
 app = FastAPI()
 
@@ -20,6 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 app.include_router(auth.router)
 app.include_router(login.router)
 app.include_router(upload.router, prefix="/api/users", tags=["users"])
@@ -27,7 +28,7 @@ app.include_router(books.router, prefix="/api/data", tags=["data"])
 app.include_router(comments.router, prefix="/api", tags=["comments"])
 app.include_router(cart.router, prefix="/api", tags=["cart"])
 app.include_router(groups.router, prefix="/api/data", tags=["groups"])
-
+app.include_router(umami.router, prefix="/api", tags=["umami"])
 
 @app.get("/")
 async def root():
@@ -53,3 +54,4 @@ async def serve_spa(full_path: str, request: Request):
     if index_path.exists():
         return FileResponse(str(index_path))
     return {"detail": "Frontend build not found"}
+

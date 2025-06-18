@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-const UMAMI_API_TOKEN = "api_xdGUZXsFcfS5SVvnBw5zOnOlUl30TiEs";
-const WEBSITE_ID = "8bca10d0-fdf5-4e2e-a57a-fddcd844f1a0"; // ваш website id
-const UMAMI_API_URL = `https://cloud.umami.is/api/websites/${WEBSITE_ID}/stats/overview`;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // например http://87.228.102.111:8000/api
 
 const Statistics = () => {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(UMAMI_API_URL, {
-      headers: {
-        Authorization: `Bearer ${UMAMI_API_TOKEN}`,
-      },
-    })
+    fetch(`${API_BASE_URL}/umami/stats`)  // Запрос к вашему backend
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Ошибка API: ${res.status}`);
