@@ -33,6 +33,7 @@ import UploadBookAdmin from './components/UploadBookAdmin';
 import AddGenreAdmin from './components/AddGenreAdmin';
 import Report from './components/Report';
 import Statistics from './components/Statistics';
+import StatisticsDetailed from './components/StatisticsDetailed';
 
 function MainStats() {
   return (
@@ -107,6 +108,7 @@ function App() {
             <Route path="/add-genre-admin" element={<AddGenreAdmin />} />
             <Route path="/report" element={<Report />} />
             <Route path="/statistics" element={<Statistics />} />
+            <Route path="/statistics-detailed" element={<StatisticsDetailed />} />
 
             <Route path="*" element={<h2 className="p-8 text-center">Страница не найдена</h2>} />
           </Routes>

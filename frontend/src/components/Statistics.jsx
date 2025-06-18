@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-} from "recharts";
 
 const API_BASE_URL = "http://87.228.102.111:8000/api";
 
-const StatisticsDetailed = () => {
-  const [dailyStats, setDailyStats] = useState([]);
+const Statistics = () => {
+  const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/umami/stats/daily`)
+    fetch(`${API_BASE_URL}/umami/stats`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Ошибка API: ${res.status}`);
@@ -18,19 +15,12 @@ const StatisticsDetailed = () => {
         return res.json();
       })
       .then((data) => {
-        // Преобразуем данные в формат для Recharts
-        // Предполагается, что data — массив объектов с датой и метриками
-        const formattedData = data.map(item => ({
-          date: new Date(item.date).toLocaleDateString(),
-          visitors: item.visitors?.value ?? 0,
-          pageviews: item.pageviews?.value ?? 0,
-          bounceRate: item.bounce_rate?.value ?? 0,
-        }));
-        setDailyStats(formattedData);
+        console.log("Umami stats data:", data);
+        setStats(data);
       })
       .catch((err) => {
+        console.error("Ошибка при загрузке статистики:", err);
         setError(err.message);
-        console.error(err);
       });
   }, []);
 
@@ -38,28 +28,33 @@ const StatisticsDetailed = () => {
     return <div className="text-red-600 text-center mt-4">Ошибка: {error}</div>;
   }
 
-  if (!dailyStats.length) {
+  if (!stats) {
     return <div className="text-center mt-4">Загрузка статистики...</div>;
   }
 
+  const visitors = stats.visitors?.value ?? "—";
+  const pageviews = stats.pageviews?.value ?? "—";
+  const bounceRate = stats.bounce_rate?.value ?? "—";
+
   return (
-    <div className="max-w-6xl mx-auto p-6 mt-10 bg-white rounded shadow">
-      <h1 className="text-3xl font-bold mb-6 text-center">Подробная статистика Umami (последние 30 дней)</h1>
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={dailyStats} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis yAxisId="left" label={{ value: 'Число', angle: -90, position: 'insideLeft' }} />
-          <YAxis yAxisId="right" orientation="right" domain={[0, 100]} label={{ value: 'Показатель отказов %', angle: 90, position: 'insideRight' }} />
-          <Tooltip />
-          <Legend verticalAlign="top" height={36} />
-          <Line yAxisId="left" type="monotone" dataKey="visitors" stroke="#8884d8" name="Посетители" />
-          <Line yAxisId="left" type="monotone" dataKey="pageviews" stroke="#82ca9d" name="Просмотры" />
-          <Line yAxisId="right" type="monotone" dataKey="bounceRate" stroke="#ff7300" name="Показатель отказов" />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className="max-w-5xl mx-auto p-6 mt-10 bg-white rounded shadow">
+      <h1 className="text-3xl font-bold mb-6 text-center">Статистика Umami</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <div>
+          <div className="text-4xl font-bold">{visitors}</div>
+          <div className="text-gray-600">Посетителей</div>
+        </div>
+        <div>
+          <div className="text-4xl font-bold">{pageviews}</div>
+          <div className="text-gray-600">Просмотров страниц</div>
+        </div>
+        <div>
+          <div className="text-4xl font-bold">{bounceRate}%</div>
+          <div className="text-gray-600">Показатель отказов</div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default StatisticsDetailed;
+export default Statistics;
