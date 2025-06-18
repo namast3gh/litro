@@ -40,16 +40,6 @@ function useUmamiTracker() {
   const location = useLocation();
 
   useEffect(() => {
-    // Добавляем скрипт Umami, если он ещё не добавлен
-    if (!document.querySelector(`script[src="${UMAMI_SCRIPT_URL}"]`)) {
-      const script = document.createElement('script');
-      script.src = UMAMI_SCRIPT_URL;
-      script.defer = true;
-      script.setAttribute('data-website-id', UMAMI_WEBSITE_ID);
-      document.body.appendChild(script);
-    }
-
-    // Вызываем трекинг просмотра страницы при смене маршрута
     if (window.umami) {
       window.umami.trackView(location.pathname);
     }
@@ -57,6 +47,17 @@ function useUmamiTracker() {
 }
 
 function AppContent() {
+  // Добавляем скрипт один раз при монтировании
+  useEffect(() => {
+    if (!document.querySelector(`script[src="${UMAMI_SCRIPT_URL}"]`)) {
+      const script = document.createElement('script');
+      script.src = UMAMI_SCRIPT_URL;
+      script.defer = true;
+      script.setAttribute('data-website-id', UMAMI_WEBSITE_ID);
+      document.body.appendChild(script);
+    }
+  }, []);
+
   useUmamiTracker();
 
   return (
