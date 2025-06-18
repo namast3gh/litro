@@ -138,7 +138,7 @@ const BooksList = () => {
               return (
                 <div
                   key={book.id}
-                  className="relative cursor-pointer rounded overflow-hidden shadow-lg hover:shadow-2xl transition-shadow bg-white flex flex-col"
+                  className="relative cursor-pointer rounded overflow-hidden shadow-lg hover:shadow-2xl transition-shadow bg-white flex flex-col h-full"
                 >
                   {/* Кнопка удаления для админа */}
                   {isAdmin && (
@@ -157,37 +157,41 @@ const BooksList = () => {
                     <img
                       src={photoUrl}
                       alt={book.title}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-48 object-cover flex-shrink-0"
                       onClick={() => navigate(`/books/${book.id}`)}
                     />
                   ) : (
                     <div
-                      className="w-full h-48 bg-gray-300 flex items-center justify-center text-gray-600"
+                      className="w-full h-48 bg-gray-300 flex items-center justify-center text-gray-600 flex-shrink-0"
                       onClick={() => navigate(`/books/${book.id}`)}
                     >
                       Нет изображения
                     </div>
                   )}
                   <div
-                    className="p-4 flex flex-col flex-grow cursor-pointer"
+                    className="p-4 flex flex-col flex-grow cursor-pointer min-h-0"
                     onClick={() => navigate(`/books/${book.id}`)}
                   >
-                    <h3 className="font-semibold text-lg mb-1">{book.title}</h3>
-                    <div className="text-sm text-gray-600 mb-2">Автор: {authorName}</div>
-                    <p className="text-gray-700 text-sm flex-grow line-clamp-3">
-                      {book.description}
-                    </p>
-                    <div className="mt-2">
-                      <StarRating rating={book.average_rating || 0} disabled />
-                      <div className="text-sm text-gray-600 mt-1">
-                        Средний рейтинг: {(book.average_rating || 0).toFixed(1)}
-                      </div>
+                    <h3 className="font-semibold text-lg mb-1 line-clamp-2">{book.title}</h3>
+                    <div className="text-sm text-gray-600 mb-2 line-clamp-1">Автор: {authorName}</div>
+                    <div className="text-gray-700 text-sm mb-3 overflow-hidden">
+                      <p className="line-clamp-3 leading-relaxed">
+                        {book.description || "Описание отсутствует"}
+                      </p>
                     </div>
-                    <div className="mt-4 text-gray-900 font-bold">
-                      {book.price.toLocaleString("ru-RU", {
-                        style: "currency",
-                        currency: "RUB",
-                      })}
+                    <div className="mt-auto">
+                      <div className="mb-2">
+                        <StarRating rating={book.average_rating || 0} disabled />
+                        <div className="text-sm text-gray-600 mt-1">
+                          Средний рейтинг: {(book.average_rating || 0).toFixed(1)}
+                        </div>
+                      </div>
+                      <div className="text-gray-900 font-bold">
+                        {book.price.toLocaleString("ru-RU", {
+                          style: "currency",
+                          currency: "RUB",
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
