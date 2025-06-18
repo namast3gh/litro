@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const API_BASE_URL = "http://87.228.102.111:8000/api"; // прописываем прямо URL backend
+const API_BASE_URL = "http://87.228.102.111:8000/api";
 
 const Statistics = () => {
   const [stats, setStats] = useState(null);
@@ -32,9 +32,9 @@ const Statistics = () => {
     return <div className="text-center mt-4">Загрузка статистики...</div>;
   }
 
-  const visitors = stats.visitors ?? stats.data?.visitors ?? "—";
-  const pageviews = stats.pageviews ?? stats.data?.pageviews ?? "—";
-  const bounceRate = stats.bounce_rate ?? stats.data?.bounce_rate ?? "—";
+  const visitors = stats.visitors?.value ?? "—";
+  const pageviews = stats.pageviews?.value ?? "—";
+  const bounceRate = stats.bounce_rate?.value ?? "—";
 
   return (
     <div className="max-w-5xl mx-auto p-6 mt-10 bg-white rounded shadow">
