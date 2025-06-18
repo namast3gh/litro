@@ -133,7 +133,7 @@ const FilterSidebar = ({ onFilterChange }) => {
 
       {/* Мобильная версия - модальное окно */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-50">
+        <div className="md:hidden fixed inset-0 z-50 flex">
           {/* Фон */}
           <div 
             className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
@@ -141,9 +141,9 @@ const FilterSidebar = ({ onFilterChange }) => {
           />
           
           {/* Модальное окно */}
-          <div className="absolute inset-x-4 top-4 bottom-4 bg-white rounded-lg shadow-xl overflow-hidden">
-            {/* Заголовок */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          <div className="relative bg-white w-full max-w-sm mx-auto my-4 rounded-lg shadow-xl flex flex-col max-h-[calc(100vh-2rem)]">
+            {/* Заголовок - фиксированный */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 flex-shrink-0">
               <h3 className="text-lg font-semibold text-gray-900">Фильтры</h3>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -154,13 +154,13 @@ const FilterSidebar = ({ onFilterChange }) => {
               </button>
             </div>
             
-            {/* Содержимое фильтров */}
-            <div className="p-4 overflow-y-auto">
+            {/* Содержимое фильтров - прокручиваемое */}
+            <div className="flex-1 overflow-y-auto p-4">
               <FilterContent />
             </div>
 
-            {/* Кнопки действий */}
-            <div className="p-4 border-t border-gray-200 bg-gray-50">
+            {/* Кнопки действий - фиксированные */}
+            <div className="p-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
